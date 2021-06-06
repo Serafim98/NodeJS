@@ -1,10 +1,13 @@
-module.exports = function(app){
+module.exports = function(app) {
+	
+	app.get('/noticia', function(req, res){
+	
+		var connection = app.config.dbConnection();
+		var noticiasModel = app.app.models.noticiasModel;
 
-    app.get('/noticia', function(req, res){
-        var connection = app.config.dbConnection();
+		noticiasModel.getNoticia(connection, function(error, result){
+			res.render("noticias/noticia", {noticia : result});
+		});	
+	});
 
-        connection.query('select * from noticias where id_noticia = 2', function(error, result){
-            res.render("noticias/noticia", {noticia: result});
-        });
-    });
 };
